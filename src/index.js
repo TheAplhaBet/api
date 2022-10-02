@@ -2,17 +2,22 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 const { mongooseURI } = require('../config.json');
 
 app.use(express.json())
 
 const userRoutes = require('./routes/user');
-const guildRoutes = require('./routes/guilds');
+const productRoutes = require('./routes/products');
+const orderRoutes = require('./routes/orders');
 
-app.use(morgan('dev'))
+app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
+app.use('/products', productRoutes);
+app.use('/orders', orderRoutes);
 app.use('/users', userRoutes);
-app.use('/dashboard', guildRoutes);
 
 app.use((req, res, next) => {
   const error = new Error('Not found');
