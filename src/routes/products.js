@@ -82,10 +82,7 @@ router.delete('/:productId', async (req, res, next) => {
   await productSchema.remove({ _id: id })
     .exec()
     .then((docs) => {
-      if (docs.lenth >= 0)
-        res.status(200).json(docs);
-      else
-        res.status(404).json({ message: 'No items found' });
+      res.status(200).json(docs);
     })
     .catch((err) => {
       console.error(err);
